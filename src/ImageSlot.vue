@@ -1,6 +1,6 @@
 <template>
   <div class='solt' :style="styleObject" @click='choosefile'>
-    <div class='placeholder' v-if='!imageData' :style="{'line-height': styleObject.height}">+</div>
+    <div class='placeholder' v-if='!imageData' :style="{'line-height': this.layout.height * this.scale - 4 + 'px'}">+</div>
     <input type="file" @change="previewImage" class='hide' accept="image/*" ref='input'>
     <img :src='imageData' :style="imgStyle" ref='img'>
   </div>
@@ -46,8 +46,8 @@ export default {
       return {
         left: (this.layout.center_x - this.layout.width / 2) * this.scale + 'px',
         top: (this.layout.center_y - this.layout.height / 2) * this.scale + 'px',
-        width: this.layout.width * this.scale - 4 + 'px',
-        height: this.layout.height * this.scale - 4 + 'px',
+        width: this.layout.width * this.scale + 'px',
+        height: this.layout.height * this.scale + 'px',
       }
     }
   },
@@ -57,12 +57,12 @@ export default {
 <style>
 .solt{
   position: absolute;
-  border:2px dashed #000;
   overflow: hidden;
 }
 .placeholder{
   font-size: 100px;
   color: rgb(138, 138, 138);
+  border:2px dashed #000;
 }
 .hide{
   display: none;
