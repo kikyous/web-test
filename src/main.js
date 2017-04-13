@@ -5,6 +5,6 @@ import VueResource from 'vue-resource'
 Vue.use(VueResource);
 
 new Vue({
-  el: '#app',
+  el: '#page',
   render: h => h(App)
 })
