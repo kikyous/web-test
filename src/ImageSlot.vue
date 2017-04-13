@@ -46,8 +46,8 @@ export default {
       return {
         left: (this.layout.center_x - this.layout.width / 2) * this.scale + 'px',
         top: (this.layout.center_y - this.layout.height / 2) * this.scale + 'px',
-        width: this.layout.width * this.scale + 'px',
-        height: this.layout.height * this.scale + 'px',
+        width: this.layout.width * this.scale - 4 + 'px',
+        height: this.layout.height * this.scale - 4 + 'px',
       }
     }
   },
