@@ -10,7 +10,7 @@ export default {
   name: 'app',
   data () {
     return {
-      layout_url: 'http://templates.shiyi.co/api/v1/layouts/12',
+      layout_url: 'http://templates.shiyi.co/api/v1/layouts/2007',
       page_height: 300,
       layout: {
         page: {

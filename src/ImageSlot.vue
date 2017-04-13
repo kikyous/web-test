@@ -1,45 +1,44 @@
 <template>
   <div class='solt' :style="styleObject" @click='choosefile'>
-    <span class='placeholder' v-if='!src'>+</span>
-    <vue-core-image-upload
-      v-bind:class="['hide']" 
-      v-bind:crop="false" url="https://sm.ms/api/upload"
-                          extensions="png,gif,jpeg,jpg"
-                          inputOfFile='smfile'
-                          text=''
-                          v-on:imageuploaded="imageuploaded">
-    </vue-core-image-upload>
-    <img :src='src' :style="imgStyle">
+    <div class='placeholder' v-if='!imageData' :style="{'line-height': styleObject.height}">+</div>
+    <input type="file" @change="previewImage" class='hide' accept="image/*" ref='input'>
+    <img :src='imageData' :style="imgStyle" ref='img'>
   </div>
 </template>
 
 <script>
-import VueCoreImageUpload  from 'vue-core-image-upload';
 export default {
   props: ['layout', 'scale'],
   name: 'image-solt',
   data () {
     return {
-      src: null,
+      imageData: null,
       imgStyle: {}
     }
   },
-  components: {
-    VueCoreImageUpload
-  },
   methods: {
-    imageuploaded(res) {
-      if (res.code == 'success') {
-        if ((res.data.width / res.data.height) > (this.$el.offsetWidth / this.$el.offsetHeight)){
-          this.imgStyle['height'] = '100%';
-        } else {
-          this.imgStyle['width'] = '100%';
+    previewImage(event) {
+      var self = this;
+      var input = event.target;
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = (e) => {
+          this.imageData = e.target.result;
         }
-        this.src = res.data.url;
+        reader.readAsDataURL(input.files[0]);
+
+        var img = self.$refs.img;
+        img.onload = ()=>{
+          if (img.width / img.height > self.$el.offsetWidth / self.$el.offsetHeight){
+            self.imgStyle = {'height': '100%'};
+          } else {
+            self.imgStyle = {'width': '100%'};
+          }
+        }
       }
     },
     choosefile(){
-      this.$el.querySelector('input').click();
+      this.$refs.input.click();
     }
   },
   computed: {
@@ -52,18 +51,20 @@ export default {
       }
     }
   },
-  mounted () {
-  },
 }
 </script>
 
 <style>
 .solt{
   position: absolute;
-  border:1px dashed #000;
+  border:2px dashed #000;
   overflow: hidden;
 }
 .placeholder{
-  font-size: 50px;
+  font-size: 100px;
+  color: rgb(138, 138, 138);
+}
+.hide{
+  display: none;
 }
 </style>
